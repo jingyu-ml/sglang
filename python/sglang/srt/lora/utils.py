@@ -106,11 +106,12 @@ def get_hidden_dim(
             raise NotImplementedError()
 
 
-def get_normalized_lora_weight_names(name: str) -> Tuple[List[str], List[str]]:
+def get_normalized_lora_weight_names(module_name: str) -> Tuple[List[str], List[str]]:
     """
     Mapping a target module name to names of the normalized LoRA weights.
     Returned tuple contains (name for Lora A, name for Lora B)
     """
+    name = module_name.split(".")[-1]
     params_mapping = {
         "q_proj": (["qkv_proj"], ["q_proj"]),
         "k_proj": (["qkv_proj"], ["kv_proj"]),

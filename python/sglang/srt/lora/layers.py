@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import torch
 from torch import nn
@@ -354,7 +354,7 @@ class RowParallelLinearWithLoRA(BaseLayerWithLoRA):
 
 def get_lora_layer(
     layer: nn.Module, lora_backend: BaseLoRABackend
-) -> BaseLayerWithLoRA:
+) -> Optional[BaseLayerWithLoRA]:
     supported_layer_types = {
         # the order matters
         VocabParallelEmbedding: VocabParallelEmbeddingWithLoRA,
@@ -367,4 +367,4 @@ def get_lora_layer(
         if isinstance(layer, src_layer_type):  # pylint: disable=unidiomatic-typecheck
             ret = lora_layer_type(layer, lora_backend)
             return ret
-    raise Exception(f"No corresponding LoRA layer supported for {type(layer)}.")
+    return None
