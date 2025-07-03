@@ -257,6 +257,8 @@ class LoRAManager:
                     lora = self.loras[lora_path]
                     lora_ranks[weight_indices[i]] = lora.config.hf_config["r"]
                     scalings[weight_indices[i]] = lora.scaling
+                else:
+                    lora_ranks[weight_indices[i]] = 1
 
             # Use pinned memory to avoid synchronizations during host-to-device transfer
             weight_indices_tensor = torch.tensor(
