@@ -258,6 +258,9 @@ class LoRAManager:
                     lora_ranks[weight_indices[i]] = lora.config.hf_config["r"]
                     scalings[weight_indices[i]] = lora.scaling
                 else:
+                    # TODO(lifuhuang): Current Triton expect lora_rank to be greater than zero.
+                    # This is a workaround to avoid memory access error.
+                    # See: https://github.com/sgl-project/sglang/issues/7765
                     lora_ranks[weight_indices[i]] = 1
 
             # Use pinned memory to avoid synchronizations during host-to-device transfer
